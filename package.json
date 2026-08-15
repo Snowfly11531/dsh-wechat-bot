@@ -5,8 +5,12 @@
   "type": "module",
   "main": "lib/index.js",
   "exports": {
-    ".": "./lib/index.js",
-    "./client": "./lib/client.js",
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
     "./package.json": "./package.json"
   },
   "dsh": {
@@ -25,26 +29,26 @@
     }
   },
   "dependencies": {
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "schemastery": "^3.18.0"
   },
   "peerDependencies": {
     "@deepseek-ai/dsh-agent": ">=0.1.0-rc.6 <0.2.0",
     "@deepseek-ai/dsh-llm": ">=0.1.0-rc.6 <0.2.0",
     "@deepseek-ai/dsh-session": ">=0.1.0-rc.6 <0.2.0",
-    "@deepseek-ai/dsh-settings": ">=0.1.0-rc.6 <0.2.0",
-    "schemastery": "^3.18.0"
+    "@deepseek-ai/dsh-settings": ">=0.1.0-rc.6 <0.2.0"
   },
   "peerDependenciesMeta": {
     "@deepseek-ai/dsh-agent": { "optional": true },
     "@deepseek-ai/dsh-llm": { "optional": true },
     "@deepseek-ai/dsh-session": { "optional": true },
-    "@deepseek-ai/dsh-settings": { "optional": true },
-    "schemastery": { "optional": true }
+    "@deepseek-ai/dsh-settings": { "optional": true }
   },
   "files": [
     "lib",
     "cordis.patch.yml",
-    "README.md"
+    "README.md",
+    "README_EN.md"
   ],
   "license": "MIT",
   "keywords": [
