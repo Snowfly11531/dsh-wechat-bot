@@ -112,6 +112,7 @@ chat_id:  (自动识别, 也可手动填)
   config:
     statusPath: /wechat/status   # 可选, 默认
     autoReply: ''                # 可选: 收到消息自动回复模板, 支持 {content} {from} (bridge 关闭时生效)
+    emptyReply: ''               # 可选: agent 未产出文本时的兜底回复 (如 '✅ 已处理'), 留空关闭
     bridge: true                 # 可选, 默认 true: 微信消息自动送入 DSH 会话并回复
     workspace: ''                # 可选: 桥接会话的工作目录 (不存在会自动创建)
     defaultWorkspace: ''         # 可选: 未绑定 chat 时的默认工作区 (不存在会自动创建)
