@@ -76,9 +76,9 @@ dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 
 ### UI preview
 
-| Settings page (WeChat Bot section) | Session binding area |
+| Logged in | Not logged in |
 |---|---|
-| ![Settings page](./docs/images/settings-wechat-bot.png) | ![Session binding](./docs/images/settings-bind.png) |
+| ![Logged in](./docs/images/settings-logged-in.png) | ![Not logged in](./docs/images/settings-not-logged-in.png) |
 
 > Unbound chats are **ignored**: the bot replies with a hint to bind a session first.
 

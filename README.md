@@ -54,9 +54,9 @@ dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 
 ### 界面预览
 
-| 设置页(微信机器人栏目) | 绑定会话区域 |
+| 已登录 | 未登录 |
 |---|---|
-| ![设置页](./docs/images/settings-wechat-bot.png) | ![绑定会话](./docs/images/settings-bind.png) |
+| ![已登录](./docs/images/settings-logged-in.png) | ![未登录](./docs/images/settings-not-logged-in.png) |
 
 ## 绑定会话(核心)
 
