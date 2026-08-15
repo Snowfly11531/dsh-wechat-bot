@@ -18,8 +18,30 @@
 
 ## 安装
 
+**方式 1:GitHub 安装**(推荐,无需等待 npm 发布)
+
 ```sh
-dsh plugin --profile web add link:C:\Users\hx\dsh-wechat-bot
+dsh plugin --profile web add "github:Snowfly11531/dsh-wechat-bot#<commit-sha>"
+```
+
+> 建议固定到某个 commit SHA(如 `#c2d67d5`),Git 安装会执行 `prepare` 脚本构建。
+> pnpm ≥ 10 首次会拒绝运行 `prepare`,需在 profile 的 `pnpm-workspace.yaml` 中放行:
+> ```yaml
+> allowBuilds:
+>   dsh-wechat-bot: true
+> ```
+
+**方式 2:npm 安装**(发布后)
+
+```sh
+dsh plugin --profile web add dsh-wechat-bot
+```
+
+**方式 3:本地开发**(源码在仓库里)
+
+```sh
+git clone https://github.com/Snowfly11531/dsh-wechat-bot.git
+dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 ```
 
 ## 快速开始

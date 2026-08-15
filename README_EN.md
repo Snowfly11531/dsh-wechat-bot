@@ -37,10 +37,31 @@ WeChat user ──message──▶ iLink Bot API (long-polling getupdates)
 
 ## Installation
 
+**Option 1: From GitHub** (recommended, no need to wait for npm)
+
 ```sh
-dsh plugin --profile web add link:/path/to/dsh-wechat-bot
-# or from npm (once published):
+dsh plugin --profile web add "github:Snowfly11531/dsh-wechat-bot#<commit-sha>"
+```
+
+> Pin a commit SHA (e.g. `#c2d67d5`) for reproducibility. Git installs run the
+> `prepare` script to build. pnpm ≥ 10 blocks `prepare` by default — allow it
+> in the profile's `pnpm-workspace.yaml`:
+> ```yaml
+> allowBuilds:
+>   dsh-wechat-bot: true
+> ```
+
+**Option 2: From npm** (once published)
+
+```sh
 dsh plugin --profile web add dsh-wechat-bot
+```
+
+**Option 3: Local development** (source in this repo)
+
+```sh
+git clone https://github.com/Snowfly11531/dsh-wechat-bot.git
+dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 ```
 
 ## Quick start
