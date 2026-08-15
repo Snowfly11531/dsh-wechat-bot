@@ -9,6 +9,12 @@ A scan-to-login WeChat bot powered by the **official WeChat iLink Bot API**
 dependencies. Log in by scanning a QR code with your phone, then chat with your
 DSH agent directly from WeChat.
 
+**It plugs WeChat into your existing DSH conversations — including the one you
+are chatting in right now.** Bind to an *existing session* and every WeChat
+message arrives with the session's **full history**: the agent remembers
+everything you talked about, and your next question in WeChat continues the
+same conversation seamlessly.
+
 Protocol implementation is based on the verified adapter in
 [DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix)
 (`internal/bot/weixin`).
@@ -19,8 +25,11 @@ Protocol implementation is based on the verified adapter in
 - ✅ **QR-code login** — scan to create/bind a Bot assistant, no personal WeChat takeover
 - ✅ **Free** — no paid tokens or gateways
 - ✅ **Zero dependencies** — pure HTTP, only `qrcode` for rendering the QR image
-- ✅ **Two-way session bridge** — WeChat messages flow into DSH sessions and replies come back
-- ✅ **Workspace & session binding** — bind a chat to an existing conversation or auto-create a new one
+- ✅ **Continue existing conversations** — WeChat and an existing DSH session
+  share one conversation history, nothing gets lost
+- ✅ **Two-way sync** — messages and replies are written into the session in
+  real time (visible in the GUI); you can keep chatting from either side
+- ✅ **Persistent memory** — sessions survive restarts and resume automatically
 - ✅ **Built-in GUI settings** — a dedicated section in DSH Settings for login, status, and binding
 
 ## How it works
@@ -70,8 +79,6 @@ Restart `dsh web` after installation.
 4. **Bind a session** (required) — see below
 5. Message your bot in WeChat — replies come from your DSH agent
 
-5. Message your bot in WeChat — replies come from your DSH agent
-
 ### UI preview
 
 | Logged in | Not logged in |
@@ -80,11 +87,37 @@ Restart `dsh web` after installation.
 
 > Unbound chats are **ignored**: the bot replies with a hint to bind a session first.
 
+## The killer use case: plug WeChat into the conversation you're already having
+
+This is what the plugin is really for:
+
+```
+① You're mid-conversation with an agent in the DSH GUI (e.g. discussing a plan)
+        │
+② Open Settings → WeChat Bot → Mode 1 "Choose existing session"
+        │       pick that session → Bind
+        ▼
+③ On the go, send a message to the bot in WeChat
+        │
+④ The agent replies with the FULL context — same person, same conversation
+```
+
+- WeChat messages **enter that session**; the agent's reply is written into the
+  session (visible in the GUI) **and** sent back to WeChat
+- Back at your desk, open that session in the **DSH GUI and keep chatting**;
+  the next WeChat message is answered with the updated context — both sides
+  always share the same memory
+- Restart dsh and the session resumes automatically; WeChat continues right
+  where it left off
+
+> Tip: start the conversation in the GUI first, then bind it to WeChat — the
+> smoothest experience.
+
 ## Binding a session
 
 Open **Settings → WeChat Bot** and use the **Binding** section. Two modes:
 
-### Mode 1: Choose an existing session
+### Mode 1: Choose an existing session (recommended — continue a conversation)
 
 ```
 [●] Choose existing session    [○] New session
@@ -94,10 +127,13 @@ Session:   [dropdown ▾]   ← shows session titles
 [Bind]
 ```
 
+- This is **continuation, not a new chat**: WeChat messages flow into the
+  chosen session and the agent replies using its **entire history** (including
+  everything said in the GUI)
 - Bound by **workspace + session title**, resolved **dynamically at runtime** —
   survives restarts even if session IDs change, as long as a session with the
   same title exists in that workspace
-- WeChat messages flow into that session; GUI and WeChat stay in sync
+- WeChat and GUI stay in sync (see the use case above)
 
 ### Mode 2: New session
 
@@ -122,11 +158,12 @@ New session name: [e.g. WeChat Assistant  ]
 
 ### Mode comparison
 
-| | Existing session | New session |
+| | Existing session (recommended) | New session |
 |---|---|---|
-| Session | Reuses an existing one | **Created on the first WeChat message** |
+| Session | Reuses an existing one, **with full history** | **Created on the first WeChat message** |
+| Memory | Remembers everything said in the GUI | Starts fresh, then persists |
 | Naming | Keeps the original title | Custom name |
-| Use case | Continue a current conversation | Dedicated chat for WeChat |
+| Use case | Bring WeChat into a conversation in progress; chat from both ends | Dedicated fresh chat for WeChat |
 
 ## Configuration
 
@@ -148,7 +185,7 @@ effect immediately, no restart needed.
     bindings:                    # optional: chat → workspace/session bindings
       - chatId: 'o9cq...@im.wechat'
         workspace: 'D:\proj'     # new-session mode: bind workspace (+ sessionTitle for a custom name)
-      # - chatId: '...'          # or bind to an existing session
+      # - chatId: '...'          # or bind to an existing session (reuse its context)
       #   sessionId: 'session-xxx'
 ```
 
@@ -157,7 +194,12 @@ effect immediately, no restart needed.
 - **Unbound**: messages are not processed; the bot replies with a binding hint
 - **Bound**: messages enter the bound session, agent replies go back to WeChat,
   and everything is written to the DSH session (visible in the GUI)
-- Sessions are persisted; a restart resumes them automatically
+- **Continuation**: when bound to an *existing* session, replies use the full
+  session history — everything said in the GUI is remembered; messages sent in
+  the GUI join the same context, and later WeChat messages are answered with
+  the latest state
+- Sessions are persisted; a restart resumes them automatically, and WeChat
+  picks up where it left off
 - Set `bridge: false` to disable the bridge (receive/send only, no agent)
 
 ## Tools
