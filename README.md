@@ -52,6 +52,12 @@ dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 4. **绑定会话**(必做,见下)——未绑定的微信消息**不会处理**,机器人会回复提示
 5. 在微信里给 Bot 助手发消息 → 自动进入绑定会话并回复
 
+### 界面预览
+
+| 设置页(微信机器人栏目) | 绑定会话区域 |
+|---|---|
+| ![设置页](./docs/images/settings-wechat-bot.png) | ![绑定会话](./docs/images/settings-bind.png) |
+
 ## 绑定会话(核心)
 
 打开「设置 → 微信机器人」,在「绑定会话」区域选择模式:

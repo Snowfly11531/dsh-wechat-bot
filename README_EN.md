@@ -72,6 +72,14 @@ dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 4. **Bind a session** (required) — see below
 5. Message your bot in WeChat — replies come from your DSH agent
 
+5. Message your bot in WeChat — replies come from your DSH agent
+
+### UI preview
+
+| Settings page (WeChat Bot section) | Session binding area |
+|---|---|
+| ![Settings page](./docs/images/settings-wechat-bot.png) | ![Session binding](./docs/images/settings-bind.png) |
+
 > Unbound chats are **ignored**: the bot replies with a hint to bind a session first.
 
 ## Binding a session
