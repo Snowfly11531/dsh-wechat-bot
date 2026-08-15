@@ -165,6 +165,35 @@ New session name: [e.g. WeChat Assistant  ]
 | Naming | Keeps the original title | Custom name |
 | Use case | Bring WeChat into a conversation in progress; chat from both ends | Dedicated fresh chat for WeChat |
 
+## Switching workspaces/sessions from WeChat
+
+No computer needed — just send a switch command to the bot in WeChat. The
+message is **intercepted first** and the default AI model decides whether it
+is a switch request:
+
+- **Explicit target**: send e.g. "switch to 微信助手" or "switch to D:\proj
+  微信助手" → switches immediately with a confirmation reply
+- **Workspace only** (or just "switch session"): the bot lists the sessions
+  of that workspace (or all workspaces); reply with a **number or title** to
+  switch
+- The binding is persisted; later WeChat messages flow into the new session;
+  `diag.lastSwitch` records the last switch (visible on the status page)
+
+```
+You: switch session
+Bot: 📂 Please pick the session to switch to (reply with a number or title):
+     1. 📁 D:\proj → session "微信助手"
+     2. 📁 D:\proj → session "dsh更新状态查询"
+     3. 📁 C:\work → session "周报"
+You: 3
+Bot: ✅ Switched: C:\work → session "周报"
+     Future WeChat messages will go to this session.
+```
+
+> A keyword pre-filter (切换/切到/换到/换工作区/换会话/workspace/session…)
+> only calls the model when needed; normal messages are unaffected, and a
+> failed classification degrades to a normal chat reply instead of blocking.
+
 ## Configuration
 
 **Method A: GUI settings (recommended)** — see "Quick start". Changes take
