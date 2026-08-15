@@ -1,0 +1,5 @@
+# dsh-wechat-bot bundle patch: 注册插件行为 web profile 插件层.
+# 安装: dsh plugin --profile web add link:C:\Users\hx\dsh-wechat-bot
+- insert:
+    - id: wechat-bot
+      name: 'dsh-wechat-bot'
