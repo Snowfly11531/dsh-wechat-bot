@@ -167,32 +167,32 @@ New session name: [e.g. WeChat Assistant  ]
 
 ## Switching workspaces/sessions from WeChat
 
-No computer needed — just send a switch command to the bot in WeChat. The
-message is **intercepted first** and the default AI model decides whether it
-is a switch request:
+No computer needed — send the bot an **exact command** in WeChat:
 
-- **Explicit target**: send e.g. "switch to 微信助手" or "switch to D:\proj
-  微信助手" → switches immediately with a confirmation reply
-- **Workspace only** (or just "switch session"): the bot lists the sessions
-  of that workspace (or all workspaces); reply with a **number or title** to
-  switch
+- Send **"切换会话"** (switch session): the bot lists sessions across all
+  workspaces; reply with a **number or title** to switch
+- Send **"切换工作区"** (switch workspace): the bot first lists workspaces;
+  after you pick one, it lists that workspace's sessions — reply with a number
+  or title to switch (if the workspace has no sessions, it binds as new-session mode)
 - The binding is persisted; later WeChat messages flow into the new session;
   `diag.lastSwitch` records the last switch (visible on the status page)
 
 ```
-You: switch session
+You: 切换会话
 Bot: 📂 Please pick the session to switch to (reply with a number or title):
-     1. 📁 D:\proj → session "微信助手"
-     2. 📁 D:\proj → session "dsh更新状态查询"
-     3. 📁 C:\work → session "周报"
+     1. 📁 proj (D:\proj) → session "微信助手"
+     2. 📁 proj (D:\proj) → session "dsh更新状态查询"
+     3. 📁 工作区A (C:\work) → session "周报"
 You: 3
-Bot: ✅ Switched: C:\work → session "周报"
+Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
      Future WeChat messages will go to this session.
 ```
 
-> A keyword pre-filter (切换/切到/换到/换工作区/换会话/workspace/session…)
-> only calls the model when needed; normal messages are unaffected, and a
-> failed classification degrades to a normal chat reply instead of blocking.
+> **Only the two exact words "切换会话" and "切换工作区" trigger the switch
+> flow** (trailing punctuation like "切换会话。" is tolerated). Every other
+> message — including phrasings like "切到 xx" or "换到 xx" — goes straight
+> into the currently bound session as a normal chat: no interception, no
+> extra model calls.
 
 ## Configuration
 
