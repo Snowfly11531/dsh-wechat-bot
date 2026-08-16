@@ -165,7 +165,7 @@ New session name: [e.g. WeChat Assistant  ]
 | Naming | Keeps the original title | Custom name |
 | Use case | Bring WeChat into a conversation in progress; chat from both ends | Dedicated fresh chat for WeChat |
 
-## Switching workspaces/sessions/model/permissions from WeChat
+## Switching workspaces/sessions from WeChat
 
 No computer needed — send the bot an **exact command** in WeChat:
 
@@ -174,11 +174,6 @@ No computer needed — send the bot an **exact command** in WeChat:
 - Send **"切换工作区"** (switch workspace): the bot first lists workspaces;
   after you pick one, it lists that workspace's sessions — reply with a number
   or title to switch (if the workspace has no sessions, it binds as new-session mode)
-- Send **"切换模型"** (switch model): lists available models (provider/model);
-  after picking one, choose the **reasoning effort** (off/high/max); future
-  messages in this WeChat session use the new model
-- Send **"切换权限"** (switch permission): pick a sandbox mode — **read-only /
-  workspace-write / danger-full-access** — applied to this WeChat session and persisted
 - **Auto summary before switching**: once a target session is picked, the bot
   uses AI to summarize that session's history (topic / progress / to-dos) and
   sends it back to WeChat with the confirmation — see what's going on there
@@ -199,22 +194,14 @@ Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
      · Done: data aggregation table
      · To-do: send to manager
      Future WeChat messages will go to this session.
-
-You: 切换权限
-Bot: 📂 Please pick a permission mode (reply with a number or name):
-     1. Read-only (read-only)
-     2. Workspace write (workspace-write)
-     3. Full access (danger-full-access)
-You: 2
-Bot: ✅ Permission switched: Workspace write (workspace-write)
-     Future WeChat messages will run under this permission.
 ```
 
-> **Only the four exact words "切换会话", "切换工作区", "切换模型" and
-> "切换权限" trigger the switch flow** (trailing punctuation like "切换会话。"
-> is tolerated). Every other message — including phrasings like "切到 xx" or
-> "换到 xx" — goes straight into the currently bound session as a normal chat:
-> no interception, no extra model calls.
+> **Only the two exact words "切换会话" and "切换工作区" trigger the switch
+> flow** (trailing punctuation like "切换会话。" is tolerated). Every other
+> message — including phrasings like "切到 xx" or "换到 xx" — goes straight
+> into the currently bound session as a normal chat: no interception, no
+> extra model calls. Model / reasoning effort / permission mode are controlled
+> by DSH global config (Settings → Models, sandbox-policy), not by this plugin.
 
 ## Configuration
 
