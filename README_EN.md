@@ -274,36 +274,6 @@ Bot: ✅ Workspace created: D:\proj\我的项目
 > that preset doesn't exist on this machine, it falls back to DSH's built-in
 > "standard" mode. Sessions created on the WeChat bridge apply the same preset.
 
-## WeChat voice input (🎤)
-
-Voice messages from WeChat are transcribed to text automatically and fed
-into the conversation:
-
-```
-You: (send a voice message)
-Bot: (transcribes it) ✅ Got it: [voice→text] Bring your laptop to the meeting tomorrow
-```
-
-- **Server transcription first**: if the voice message already carries a
-  server-side `text` transcript, it is used directly — instant and free
-- Otherwise it is transcribed via the **ASR model** below
-- A failed transcription replies with the reason instead of silently dropping
-
-**Configuration** (Settings → WeChat Bot → "Voice input" card, applies
-immediately):
-
-| Setting | Default | Description |
-|---|---|---|
-| Enable voice input | ✅ | When off, voice is ignored |
-| ASR model | `mimo-v2.5-asr` | model id sent to the recognition API |
-| ASR base URL | `https://api.xiaomimimo.com/v1` | OpenAI-compatible base; route is `/chat/completions` |
-| ASR key | `XIAOMI_API_KEY` | DSH credential/env reference (defaults to DSH's mimo key) |
-| Language | `auto` | `auto` / `zh` / `en` |
-
-> Voice is AES-128-ECB decrypted and sent in its original codec (usually SILK);
-> if the chosen ASR model rejects that codec, the server-provided transcript is
-> preferred. ASR is a remote API call and may incur cost and latency.
-
 ## Session bridge details
 
 - **Unbound**: messages are not processed; the bot replies with a binding hint
