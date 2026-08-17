@@ -125,9 +125,7 @@ dsh plugin --profile web add link:/absolute/path/to/dsh-wechat-bot
 
 ### 界面预览
 
-| 已登录 | 未登录 |
-|---|---|
-| ![已登录](./docs/images/settings-logged-in.png) | ![未登录](./docs/images/settings-not-logged-in.png) |
+> 为避免泄露个人 chat_id, 设置页截图不再随源码发布 (截图可能包含真实微信 chat_id)。
 
 ## 核心场景:把微信接进你正在聊的对话
 
@@ -258,7 +256,7 @@ Bot: ✅ 新增工作区成功: D:\proj\我的项目
 | `wechat_send` | 给 chat_id 发文本(chat_id 来自 inbox) |
 | `wechat_read_inbox` | 读取收到的最近 200 条消息 |
 | `wechat_sessions` | 列出可选会话(id + 工作目录) |
-| `wechat_bind` | 把 chat_id 绑到指定 workspace 或 sessionId |
+| `wechat_bind` | 把 chat_id 绑到指定 workspace 或 sessionId(与 GUI 一致,持久化到 settings.yaml) |
 
 ## 凭据位置
 

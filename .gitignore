@@ -4,3 +4,7 @@ node_modules/
 .chrome-profile/
 .chrome-profile2/
 
+
+# 设置页截图可能包含真实 chat_id, 禁止提交
+docs/*.png
+docs/images/*.png

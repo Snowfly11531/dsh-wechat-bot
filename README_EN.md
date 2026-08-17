@@ -142,9 +142,7 @@ Restart `dsh web` after installation.
 
 ### UI preview
 
-| Logged in | Not logged in |
-|---|---|
-| ![Logged in](./docs/images/settings-logged-in.png) | ![Not logged in](./docs/images/settings-not-logged-in.png) |
+> Screenshots are no longer shipped with the source to avoid leaking personal WeChat chat_id values.
 
 > Unbound chats are **ignored**: the bot replies with a hint to bind a session first.
 
