@@ -220,12 +220,35 @@ effect immediately, no restart needed.
     bridge: true                 # optional, default true: feed WeChat messages into DSH sessions
     workspace: ''                # optional: default workspace for bridged sessions (auto-created if missing)
     defaultWorkspace: ''         # optional: fallback workspace for unbound chats
+    rootDir: 'D:\proj'           # optional: workspace root; new workspaces are created as same-name folders here
     bindings:                    # optional: chat → workspace/session bindings
       - chatId: 'o9cq...@im.wechat'
         workspace: 'D:\proj'     # new-session mode: bind workspace (+ sessionTitle for a custom name)
       # - chatId: '...'          # or bind to an existing session (reuse its context)
       #   sessionId: 'session-xxx'
 ```
+
+## Creating workspaces
+
+Two ways, both create a same-name folder under the **workspace root**
+(default `D:\proj`, configurable in the settings UI) and register it as a DSH
+workspace:
+
+- **Settings UI**: Settings → WeChat Bot → "New workspace" card, enter a name
+  and click "Create & bind"
+- **WeChat exact command**: send **"新增工作区"** → the bot asks for a name →
+  reply with the name to create:
+
+```
+You: 新增工作区
+Bot: 📂 Please reply with the new workspace name (a same-name folder will be created under D:\proj and bound as a DSH workspace):
+You: 我的项目
+Bot: ✅ Workspace created: D:\proj\我的项目
+     Bound as a DSH workspace — visible in the workspace list / session binding.
+```
+
+> Names must not contain `\ / : * ? " < > |`; if the target folder already
+> exists it is simply registered as a workspace (contents are untouched).
 
 ## Session bridge details
 
