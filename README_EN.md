@@ -174,6 +174,9 @@ No computer needed — send the bot an **exact command** in WeChat:
 - Send **"切换工作区"** (switch workspace): the bot first lists workspaces;
   after you pick one, it lists that workspace's sessions — reply with a number
   or title to switch (if the workspace has no sessions, it binds as new-session mode)
+- Send **"切换模型"** (switch model): lists available models (provider/model);
+  after picking one, choose the **reasoning effort** (off/high/max) — future
+  messages in this WeChat session use the new model (per-chat override, persisted)
 - **Asks whether to summarize before switching**: once a target session is
   picked, the bot asks whether to AI-summarize it (topic / progress / to-dos);
   reply "是" to get the summary with the confirmation, "否" to switch directly
@@ -198,12 +201,14 @@ Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
      Future WeChat messages will go to this session.
 ```
 
-> **Only the two exact words "切换会话" and "切换工作区" trigger the switch
-> flow** (trailing punctuation like "切换会话。" is tolerated). Every other
-> message — including phrasings like "切到 xx" or "换到 xx" — goes straight
-> into the currently bound session as a normal chat: no interception, no
-> extra model calls. Model / reasoning effort / permission mode are controlled
-> by DSH global config (Settings → Models, sandbox-policy), not by this plugin.
+> **Only the five exact words "切换会话", "切换工作区", "新增工作区",
+> "新增会话" and "切换模型" trigger the switch flow** (trailing punctuation
+> like "切换会话。" is tolerated). Every other message — including phrasings
+> like "切到 xx" or "换到 xx" — goes straight into the currently bound session
+> as a normal chat: no interception, no extra model calls. "切换模型" overrides
+> only this WeChat session (per-chat); otherwise the DSH global default model
+> is used. Permission mode is controlled by DSH global config (sandbox-policy),
+> not by this plugin.
 
 ## Configuration
 
