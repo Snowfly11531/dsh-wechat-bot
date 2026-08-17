@@ -250,6 +250,25 @@ Bot: ✅ Workspace created: D:\proj\我的项目
 > Names must not contain `\ / : * ? " < > |`; if the target folder already
 > exists it is simply registered as a workspace (contents are untouched).
 
+## Creating sessions
+
+WeChat exact command **"新增会话"** (new session): pick a workspace, then
+enter a session name — a new named session is created in that workspace,
+persisted and visible in the GUI workspace list:
+
+```
+You: 新增会话
+Bot: 📂 Please pick the workspace for the new session (reply with a number or name):
+     1. 📁 proj (D:\proj)
+     2. 📁 工作区A (C:\work)
+You: 1
+Bot: 📂 Workspace proj (D:\proj) selected — please reply with the new session name:
+You: 测试会话
+Bot: ✅ Session "测试会话" created (proj (D:\proj))
+     id: session-xxxx
+     Pick it later with "切换会话" or open it in the GUI workspace.
+```
+
 ## Session bridge details
 
 - **Unbound**: messages are not processed; the bot replies with a binding hint
