@@ -180,9 +180,7 @@ Bot: ✅ 已切换: 工作区A (C:\work) → 会话「周报」
     autoReply: ''                # 可选: 收到消息自动回复模板, 支持 {content} {from} (bridge 关闭时生效)
     emptyReply: ''               # 可选: agent 未产出文本时的兜底回复 (如 '✅ 已处理'), 留空关闭
     bridge: true                 # 可选, 默认 true: 微信消息自动送入 DSH 会话并回复
-    workspace: ''                # 可选: 桥接会话的工作目录 (不存在会自动创建)
-    defaultWorkspace: ''         # 可选: 未绑定 chat 时的默认工作区 (不存在会自动创建)
-    rootDir: 'D:\proj'           # 可选: 工作区根目录, 「新增工作区」在此下创建同名文件夹
+    rootDir: '~/.dsh/proj'       # 可选: 工作区根目录 (未绑定 chat 的兜底工作区 + 「新增工作区」创建位置), 默认 $DSH_HOME/proj, 无则自动创建
     bindings:                    # 可选: chat → 工作区/现有会话 的绑定
       - chatId: 'o9cq808...@im.wechat'
         workspace: 'D:\proj'     # 新建会话模式: 绑定工作区, 首次消息时创建 (可加 sessionTitle 指定名称)

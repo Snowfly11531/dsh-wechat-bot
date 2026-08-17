@@ -234,9 +234,7 @@ effect immediately, no restart needed.
     autoReply: ''                # optional: auto-reply template, supports {content} {from} (used when bridge is off)
     emptyReply: ''               # optional: fallback reply when the agent produces no text (e.g. '✅ Done'); empty = off
     bridge: true                 # optional, default true: feed WeChat messages into DSH sessions
-    workspace: ''                # optional: default workspace for bridged sessions (auto-created if missing)
-    defaultWorkspace: ''         # optional: fallback workspace for unbound chats
-    rootDir: 'D:\proj'           # optional: workspace root; new workspaces are created as same-name folders here
+    rootDir: '~/.dsh/proj'       # optional: workspace root (fallback for unbound chats + where new workspaces are created); default $DSH_HOME/proj, auto-created
     bindings:                    # optional: chat → workspace/session bindings
       - chatId: 'o9cq...@im.wechat'
         workspace: 'D:\proj'     # new-session mode: bind workspace (+ sessionTitle for a custom name)
