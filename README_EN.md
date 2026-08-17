@@ -2,24 +2,94 @@
 
 English · [简体中文](./README.md)
 
-**WeChat QR-Code Bot plugin for DeepSeek Harness (DSH).**
+> **Put DSH in your pocket — switch workspaces, sessions, and models straight from WeChat.**
 
 A scan-to-login WeChat bot powered by the **official WeChat iLink Bot API**
-(`ilinkai.weixin.qq.com`) — pure HTTP, zero reverse-engineering, no third-party
-dependencies. Log in by scanning a QR code with your phone, then chat with your
-DSH agent directly from WeChat.
+(`ilinkai.weixin.qq.com`) — pure HTTP, zero external dependencies. WeChat
+messages flow straight into your DSH sessions and the agent replies with the
+**full conversation history**. The kicker: send one **exact command** in WeChat
+to switch to the very conversation you're having in the GUI — or hop to another
+workspace entirely — without ever touching your computer.
 
-**It plugs WeChat into your existing DSH conversations — including the one you
-are chatting in right now.** Bind to an *existing session* and every WeChat
-message arrives with the session's **full history**: the agent remembers
-everything you talked about, and your next question in WeChat continues the
-same conversation seamlessly.
+## ✨ The killer feature: WeChat is your remote control
 
-Protocol implementation is based on the verified adapter in
-[DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix)
-(`internal/bot/weixin`).
+Once you've bound a session, your phone isn't just another chat window — it's
+a **remote control for DSH**. Switch workspaces, switch sessions, switch models
+— all from WeChat, all without a computer.
 
-## Highlights
+### Switch workspaces / sessions in WeChat
+
+```
+You: 切换会话
+Bot: 📂 Please pick the session to switch to (reply with a number or title):
+     1. 📁 proj (D:\proj) → session "微信助手"
+     2. 📁 proj (D:\proj) → session "dsh更新状态查询"
+     3. 📁 工作区A (C:\work) → session "周报"
+You: 3
+Bot: 📂 Selected: 工作区A (C:\work) → session "周报"
+     Summarize this session before switching? Reply "是" or "否" (anything else cancels).
+You: 是
+Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
+     📝 Session summary:
+     · Topic: weekly report
+     · Done: data aggregation table
+     · To-do: send to manager
+     Future WeChat messages will go to this session.
+```
+
+- **"切换会话"** (switch session): lists sessions across **all workspaces** →
+  reply with a **number or title** to switch instantly
+- **"切换工作区"** (switch workspace): lists workspaces first, then that
+  workspace's sessions → pick and switch
+- **"当前工作区"** / **"当前会话"** (current workspace/session): check which
+  workspace and session you're bound to right now (including the session id)
+- The binding **persists**, so future messages keep flowing into the new
+  session — conversation memory carries over seamlessly
+- Jump to a session in another workspace in one step; projects stay isolated
+  yet are one command apart
+
+### Read the room before you switch — with AI
+
+Once you pick a target session, the bot asks "summarize first?" —
+reply "是" and it AI-summarizes the session (**topic / progress / to-dos**) so
+you can see what that conversation is about **before** you switch. Perfect for
+handovers, checking progress, or hopping into a different task.
+
+### More than switching: change models, create workspaces/sessions
+
+| WeChat exact command | Function |
+|---|---|
+| **切换模型** (switch model) | Lists providers/models → then pick the **reasoning effort** (off/high/max); per-chat override, persisted |
+| **当前模型** (current model) | Shows the active model/effort (notes session override vs. global default) |
+| **新增工作区** (new workspace) | Creates a same-name folder under the root and registers it as a DSH workspace |
+| **新增会话** (new session) | Creates and names a new session in the chosen workspace |
+| **统计用量** (usage stats) | Reports usage and balance/quota for the platform behind the current model |
+
+```
+You: 切换模型
+Bot: Current model: deepseek-official / deepseek-v4-flash (effort high)
+     Available models (reply with number or name):
+     1. opencode-go / deepseek-v4-pro
+     2. opencode-go / minimax-m3
+     3. deepseek-official / deepseek-v4-flash
+You: 2
+Bot: Selected opencode-go / minimax-m3 — now pick the reasoning effort (off/high/max):
+You: max
+Bot: ✅ Model switched: opencode-go / minimax-m3 (max)
+     Future WeChat messages in this session will use this model.
+```
+
+> **Only the exact words trigger interception** (trailing punctuation like
+> "切换会话。" is tolerated). There are nine: "切换会话", "切换工作区",
+> "新增工作区", "新增会话", "切换模型", "当前工作区", "当前会话", "当前模型"
+> and "统计用量". Every
+> other message — including phrasings like "切到 xx" or "换到 xx" — goes
+> straight into the currently bound session as a normal chat: no interception,
+> no extra model calls. "切换模型" overrides only this WeChat session (per-chat);
+> otherwise the DSH global default model is used. Permission mode is controlled
+> by DSH global config (sandbox-policy), not by this plugin.
+
+## Other highlights
 
 - ✅ **Official iLink Bot API** — no unofficial protocols, low ban risk
 - ✅ **QR-code login** — scan to create/bind a Bot assistant, no personal WeChat takeover
@@ -30,19 +100,8 @@ Protocol implementation is based on the verified adapter in
 - ✅ **Two-way sync** — messages and replies are written into the session in
   real time (visible in the GUI); you can keep chatting from either side
 - ✅ **Persistent memory** — sessions survive restarts and resume automatically
-- ✅ **Built-in GUI settings** — a dedicated section in DSH Settings for login, status, and binding
-
-## How it works
-
-```
-WeChat user ──message──▶ iLink Bot API (long-polling getupdates)
-                              │
-                              ▼
-                    DSH session (bound workspace)
-                              │
-                              ▼
-                    Agent replies ──sendmessage──▶ back to WeChat
-```
+- ✅ **Built-in GUI settings** — a dedicated section in DSH Settings for login,
+  status, binding, and the workspace root — applies immediately
 
 ## Installation
 
@@ -79,6 +138,8 @@ Restart `dsh web` after installation.
 4. **Bind a session** (required) — see below
 5. Message your bot in WeChat — replies come from your DSH agent
 
+> Once bound, try **"切换会话"** in WeChat — that's what makes this plugin unique.
+
 ### UI preview
 
 | Logged in | Not logged in |
@@ -88,8 +149,6 @@ Restart `dsh web` after installation.
 > Unbound chats are **ignored**: the bot replies with a hint to bind a session first.
 
 ## The killer use case: plug WeChat into the conversation you're already having
-
-This is what the plugin is really for:
 
 ```
 ① You're mid-conversation with an agent in the DSH GUI (e.g. discussing a plan)
@@ -165,60 +224,6 @@ New session name: [e.g. WeChat Assistant  ]
 | Naming | Keeps the original title | Custom name |
 | Use case | Bring WeChat into a conversation in progress; chat from both ends | Dedicated fresh chat for WeChat |
 
-## Switching workspaces/sessions from WeChat
-
-No computer needed — send the bot an **exact command** in WeChat:
-
-- Send **"切换会话"** (switch session): the bot lists sessions across all
-  workspaces; reply with a **number or title** to switch
-- Send **"切换工作区"** (switch workspace): the bot first lists workspaces;
-  after you pick one, it lists that workspace's sessions — reply with a number
-  or title to switch (if the workspace has no sessions, it binds as new-session mode)
-- Send **"切换模型"** (switch model): lists available models (provider/model);
-  after picking one, choose the **reasoning effort** (off/high/max) — future
-  messages in this WeChat session use the new model (per-chat override, persisted)
-- Send **"当前工作区"** / **"当前会话"** / **"当前模型"** (current
-  workspace/session/model): query the current binding (workspace name/path,
-  session title and id) and the active model/reasoning effort (notes whether
-  it's a session override or the global default)
-- Send **"统计用量"** (usage stats): reports usage and balance/quota for the
-  platform behind the current model (reuses dsh-usage-stats: account snapshot
-  + quota windows + today's token usage)
-- **Asks whether to summarize before switching**: once a target session is
-  picked, the bot asks whether to AI-summarize it (topic / progress / to-dos);
-  reply "是" to get the summary with the confirmation, "否" to switch directly
-- The binding is persisted; later WeChat messages flow into the new session;
-  `diag.lastSwitch` records the last switch (visible on the status page)
-
-```
-You: 切换会话
-Bot: 📂 Please pick the session to switch to (reply with a number or title):
-     1. 📁 proj (D:\proj) → session "微信助手"
-     2. 📁 proj (D:\proj) → session "dsh更新状态查询"
-     3. 📁 工作区A (C:\work) → session "周报"
-You: 3
-Bot: 📂 Selected: 工作区A (C:\work) → session "周报"
-     Summarize this session before switching? Reply "是" or "否" (anything else cancels).
-You: 是
-Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
-     📝 Session summary:
-     · Topic: weekly report
-     · Done: data aggregation table
-     · To-do: send to manager
-     Future WeChat messages will go to this session.
-```
-
-> **Only the nine exact words "切换会话", "切换工作区", "新增工作区",
-> "新增会话", "切换模型", "当前工作区", "当前会话", "当前模型" and "统计用量"
-> trigger the interception** (trailing punctuation like "切换会话。" is
-> tolerated). Every
-> other message — including phrasings like "切到 xx" or "换到 xx" — goes
-> straight into the currently bound session as a normal chat: no interception,
-> no extra model calls. "切换模型" overrides
-> only this WeChat session (per-chat); otherwise the DSH global default model
-> is used. Permission mode is controlled by DSH global config (sandbox-policy),
-> not by this plugin.
-
 ## Configuration
 
 **Method A: GUI settings (recommended)** — see "Quick start". Changes take
@@ -242,16 +247,16 @@ effect immediately, no restart needed.
       #   sessionId: 'session-xxx'
 ```
 
-## Creating workspaces
+## Creating workspaces / sessions
 
-Two ways, both create a same-name folder under the **workspace root**
-(default `D:\proj`, configurable in the settings UI) and register it as a DSH
-workspace:
+Both create under the **workspace root** (configurable in the settings UI,
+default `~/.dsh/proj`, auto-created) and register it as a DSH workspace.
 
 - **Settings UI**: Settings → WeChat Bot → "New workspace" card, enter a name
   and click "Create & bind"
-- **WeChat exact command**: send **"新增工作区"** → the bot asks for a name →
-  reply with the name to create:
+- **WeChat exact command** "新增工作区" → the bot asks for a name → reply to create
+- **WeChat exact command** "新增会话" → pick a workspace → reply with a name to
+  create and name a session there (persisted, visible in the GUI workspace list):
 
 ```
 You: 新增工作区
@@ -264,24 +269,10 @@ Bot: ✅ Workspace created: D:\proj\我的项目
 > Names must not contain `\ / : * ? " < > |`; if the target folder already
 > exists it is simply registered as a workspace (contents are untouched).
 
-## Creating sessions
-
-WeChat exact command **"新增会话"** (new session): pick a workspace, then
-enter a session name — a new named session is created in that workspace,
-persisted and visible in the GUI workspace list:
-
-```
-You: 新增会话
-Bot: 📂 Please pick the workspace for the new session (reply with a number or name):
-     1. 📁 proj (D:\proj)
-     2. 📁 工作区A (C:\work)
-You: 1
-Bot: 📂 Workspace proj (D:\proj) selected — please reply with the new session name:
-You: 测试会话
-Bot: ✅ Session "测试会话" created (proj (D:\proj))
-     id: session-xxxx
-     Pick it later with "切换会话" or open it in the GUI workspace.
-```
+> When creating sessions, the DSH default agent preset (Settings → Mode, e.g.
+> 梁神模式) is applied automatically so tools like bash/files are available; if
+> that preset doesn't exist on this machine, it falls back to DSH's built-in
+> "standard" mode. Sessions created on the WeChat bridge apply the same preset.
 
 ## Session bridge details
 
