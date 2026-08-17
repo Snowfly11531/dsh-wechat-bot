@@ -174,10 +174,9 @@ No computer needed — send the bot an **exact command** in WeChat:
 - Send **"切换工作区"** (switch workspace): the bot first lists workspaces;
   after you pick one, it lists that workspace's sessions — reply with a number
   or title to switch (if the workspace has no sessions, it binds as new-session mode)
-- **Auto summary before switching**: once a target session is picked, the bot
-  uses AI to summarize that session's history (topic / progress / to-dos) and
-  sends it back to WeChat with the confirmation — see what's going on there
-  before you jump in
+- **Asks whether to summarize before switching**: once a target session is
+  picked, the bot asks whether to AI-summarize it (topic / progress / to-dos);
+  reply "是" to get the summary with the confirmation, "否" to switch directly
 - The binding is persisted; later WeChat messages flow into the new session;
   `diag.lastSwitch` records the last switch (visible on the status page)
 
@@ -188,6 +187,9 @@ Bot: 📂 Please pick the session to switch to (reply with a number or title):
      2. 📁 proj (D:\proj) → session "dsh更新状态查询"
      3. 📁 工作区A (C:\work) → session "周报"
 You: 3
+Bot: 📂 Selected: 工作区A (C:\work) → session "周报"
+     Summarize this session before switching? Reply "是" or "否" (anything else cancels).
+You: 是
 Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
      📝 Session summary:
      · Topic: weekly report

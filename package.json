@@ -1,6 +1,6 @@
 {
   "name": "dsh-wechat-bot",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "微信扫码机器人插件 for DSH: 基于微信官方 iLink Bot API (ilinkai.weixin.qq.com) 的扫码登录机器人, 消息收发接入 DSH agent, 支持绑定工作区/现有会话、微信内切换会话/工作区、新增工作区/会话。零外部依赖, 纯 HTTP 协议。",
   "type": "module",
   "main": "lib/index.js",
