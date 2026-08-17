@@ -181,6 +181,9 @@ No computer needed — send the bot an **exact command** in WeChat:
   workspace/session/model): query the current binding (workspace name/path,
   session title and id) and the active model/reasoning effort (notes whether
   it's a session override or the global default)
+- Send **"统计用量"** (usage stats): reports usage and balance/quota for the
+  platform behind the current model (reuses dsh-usage-stats: account snapshot
+  + quota windows + today's token usage)
 - **Asks whether to summarize before switching**: once a target session is
   picked, the bot asks whether to AI-summarize it (topic / progress / to-dos);
   reply "是" to get the summary with the confirmation, "否" to switch directly
@@ -205,9 +208,10 @@ Bot: ✅ Switched: 工作区A (C:\work) → session "周报"
      Future WeChat messages will go to this session.
 ```
 
-> **Only the eight exact words "切换会话", "切换工作区", "新增工作区",
-> "新增会话", "切换模型", "当前工作区", "当前会话" and "当前模型" trigger the
-> interception** (trailing punctuation like "切换会话。" is tolerated). Every
+> **Only the nine exact words "切换会话", "切换工作区", "新增工作区",
+> "新增会话", "切换模型", "当前工作区", "当前会话", "当前模型" and "统计用量"
+> trigger the interception** (trailing punctuation like "切换会话。" is
+> tolerated). Every
 > other message — including phrasings like "切到 xx" or "换到 xx" — goes
 > straight into the currently bound session as a normal chat: no interception,
 > no extra model calls. "切换模型" overrides
